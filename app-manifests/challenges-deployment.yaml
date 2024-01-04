@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata: 
   name: challenges
-  namespace: insurance
 spec:
   selector:
     matchLabels:
@@ -23,7 +22,7 @@ spec:
         - "challenges"            
       containers:
         - name: insurance-fitness-challenges-container       
-          image: fitness-challenges:v1.0
+          image: image-registry.openshift-image-registry.svc:5000/kplogesh-dev/simple-msr-docker
           imagePullPolicy: IfNotPresent        
         # Resources required for the apigateway to function. CPUs and Memory configurations.
           resources:
@@ -63,10 +62,7 @@ spec:
               name: licensekey
             - name: application-properties
               mountPath: /opt/softwareag/IntegrationServer/application.properties
-              subPath: application.properties                               
-      imagePullSecrets:
-        - name: regcred
-        - name: sagregcred           
+              subPath: application.properties                                         
       volumes:
         - name: licensekey
           configMap:
