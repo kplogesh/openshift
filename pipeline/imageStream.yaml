@@ -1,4 +1,4 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStreamTag
 metadata:
-  name: msr-fitness:{{params.IMAGE_TAG}}
+  name: msr-fitness:${IMAGE_TAG}
