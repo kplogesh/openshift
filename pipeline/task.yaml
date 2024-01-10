@@ -28,11 +28,12 @@ spec:
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
+        sed -i "s/<IMAGE_TAG>/${inputs.params.IMAGE_TAG}/g" pipeline/imageStream.yaml
         oc apply -f pipeline/imageStream.yaml || { echo "Error applying ImageStream configuration"; exit 1; }
 
         # Apply the BuildConfig configuration
-        oc process -f pipeline/buildConfig.yaml -p IMAGE_TAG=${{params.IMAGE_TAG}} | oc apply -f - || { echo "Error applying BuildConfig configuration"; exit 1; }
-        oc process -f pipeline/imageStream.yaml -p IMAGE_TAG=${{params.IMAGE_TAG}} | oc apply -f - || { echo "Error applying ImageStream configuration"; exit 1; }
+        sed -i "s/<IMAGE_TAG>/${inputs.params.IMAGE_TAG}/g" pipeline/buildConfig.yaml
+        oc apply -f pipeline/buildConfig.yaml || { echo "Error applying BuildConfig configuration"; exit 1; }
     - name: start-build 
       image: openshift/origin-cli
       script: |
