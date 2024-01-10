@@ -23,15 +23,15 @@ spec:
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
         ls -l /workspace/source
-    - name: create-build-config
+    - name: apply-build-config
       image: openshift/origin-cli
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
-        oc apply -f pipeline/imageStream.yaml || { echo "Error applying ImageStream configuration"; exit 1; }
+        oc apply -f buildconfig/imageStream.yaml || { echo "Error applying ImageStream configuration"; exit 1; }
 
         # Apply the BuildConfig configuration
-        oc apply -f pipeline/buildConfig.yaml || { echo "Error applying BuildConfig configuration"; exit 1; }
+        oc apply -f buildconfig/buildConfig.yaml || { echo "Error applying BuildConfig configuration"; exit 1; }
     - name: start-build 
       image: openshift/origin-cli
       script: |
