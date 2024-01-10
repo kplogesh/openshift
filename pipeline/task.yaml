@@ -23,10 +23,17 @@ spec:
       image: openshift/origin-cli
       script: |
         cd /workspace/source
-        oc apply -f pipeline/imageStream.yaml
-        oc apply -f pipeline/buildConfig.yaml
+
+        # Switch to the correct project
+        oc project kplogesh-dev
+
+        # Apply the ImageStream configuration
+        oc apply -f pipeline/imageStream.yaml || { echo "Error applying ImageStream configuration"; exit 1; }
+
+        # Apply the BuildConfig configuration
+        oc process -f pipeline/buildConfig.yaml -p IMAGE_TAG=$(params.IMAGE_TAG) | oc apply -f - || { echo "Error applying BuildConfig configuration"; exit 1; }
     - name: start-build 
       image: openshift/origin-cli
       script: |
         cd /workspace/source
-        oc start-build msr-build-config
+        oc start-build msr-fitness-config

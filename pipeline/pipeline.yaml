@@ -13,6 +13,10 @@ spec:
       description: 'MSR Test'
       name: IMAGE_NAME
       type: string
+    - default: latest
+      description: 'Image Tag'
+      name: IMAGE_TAG
+      type: string
   tasks:
     - name: build-container
       taskRef:
