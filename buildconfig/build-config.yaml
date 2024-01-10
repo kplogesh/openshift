@@ -15,6 +15,6 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: fitness-msr:latest
+      name: fitness-msr:1.0.0
   triggers:
     - type: ConfigChange
