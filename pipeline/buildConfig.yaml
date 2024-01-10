@@ -1,0 +1,20 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: msr-build-config
+spec:
+  runPolicy: Serial
+  source:
+      git:
+        ref: master
+        uri: https://github.com/kplogesh/openshift
+      type: Git
+  strategy:
+      dockerStrategy:
+      type: Docker
+  output:
+    to:
+      kind: ImageStreamTag
+      name: simple-msr-docker:latest
+  triggers:
+    - type: ConfigChange

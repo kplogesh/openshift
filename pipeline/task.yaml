@@ -17,20 +17,10 @@ spec:
     - name: git-source
       image: alpine/git
       script: |
-        git clone $(inputs.params.REPO_URL) /workspace/source
+        git clone --recursive $(inputs.params.REPO_URL) /workspace/source
         ls -l /workspace/source
     - name: start-build
       image: openshift/origin-cli
       script: |
         cd /workspace/source
         oc start-build msr-build-config
-    - name: buildah-build-step
-      image: buildah/buildah
-      securityContext:
-        privileged:: true
-      command:
-        - /bin/sh
-        - -c
-      args:
-        - |
-          buildah bud -t docker-app-image:latest .
