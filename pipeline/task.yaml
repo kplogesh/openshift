@@ -25,7 +25,6 @@ spec:
         cd /workspace/source
         oc apply -f pipeline/imageStream.yaml
         oc apply -f pipeline/buildConfig.yaml
-        oc tag msr-fitness:latest msr-fitness:1.0.0
     - name: start-build 
       image: openshift/origin-cli
       script: |
