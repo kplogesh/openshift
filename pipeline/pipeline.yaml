@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: build-and-deploy
+  name: fitness-build
   namespace: kplogesh-dev
 spec:
   params:
@@ -18,7 +18,7 @@ spec:
       name: IMAGE_TAG
       type: string
   tasks:
-    - name: build-container
+    - name: fitness-build-container
       taskRef:
         kind: Task
         name: build-container

@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: build-container
+  name: fitness-build-container
   namespace: kplogesh-dev
 spec:
   params:
@@ -23,7 +23,7 @@ spec:
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
         ls -l /workspace/source
-    - name: apply-build-config
+    - name: apply-fitness-buildconfig
       image: openshift/origin-cli
       script: |
         cd /workspace/source
@@ -32,7 +32,7 @@ spec:
 
         # Apply the BuildConfig configuration
         oc apply -f buildconfig/buildConfig.yaml || { echo "Error applying BuildConfig configuration"; exit 1; }
-    - name: start-build 
+    - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
         cd /workspace/source
