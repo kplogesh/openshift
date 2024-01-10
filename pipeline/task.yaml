@@ -19,7 +19,12 @@ spec:
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
         ls -l /workspace/source
-    - name: start-build
+    - name: create-build-config
+      image: openshift/origin-cli
+      script: |
+        kubectl apply -f pipeline/imageStream.yaml
+        kubectl apply -f pipeline/buildConfig.yaml
+    - name: start-build 
       image: openshift/origin-cli
       script: |
         cd /workspace/source

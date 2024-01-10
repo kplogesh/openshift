@@ -1,7 +1,7 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: msr-build-config
+  name: msr-fitness-config
 spec:
   runPolicy: Serial
   source:
@@ -15,6 +15,6 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: simple-msr-docker:latest
+      name: msr-fitness:1.0.0
   triggers:
     - type: ConfigChange
