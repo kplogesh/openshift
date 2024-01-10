@@ -22,8 +22,10 @@ spec:
     - name: create-build-config
       image: openshift/origin-cli
       script: |
-        kubectl apply -f pipeline/imageStream.yaml
-        kubectl apply -f pipeline/buildConfig.yaml
+        cd /workspace/source
+        oc apply -f pipeline/imageStream.yaml
+        oc apply -f pipeline/buildConfig.yaml
+        oc tag msr-fitness:latest msr-fitness:1.0.0
     - name: start-build 
       image: openshift/origin-cli
       script: |
