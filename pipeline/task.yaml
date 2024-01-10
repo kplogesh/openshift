@@ -28,11 +28,9 @@ spec:
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
-        sed -i "s/<IMAGE_TAG>/${inputs.params.IMAGE_TAG}/g" pipeline/imageStream.yaml
         oc apply -f pipeline/imageStream.yaml || { echo "Error applying ImageStream configuration"; exit 1; }
 
         # Apply the BuildConfig configuration
-        sed -i "s/<IMAGE_TAG>/${inputs.params.IMAGE_TAG}/g" pipeline/buildConfig.yaml
         oc apply -f pipeline/buildConfig.yaml || { echo "Error applying BuildConfig configuration"; exit 1; }
     - name: start-build 
       image: openshift/origin-cli
