@@ -1,0 +1,13 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: build-and-deploy
+  namespace: kplogesh-dev
+spec:
+  pipelineRef:
+    name: build-and-deploy
+  params:
+    - name: REPO_URL
+      value: https://github.com/kplogesh/openshift.git
+    - name: IMAGE_NAME
+      value: msr-test

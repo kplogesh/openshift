@@ -1,0 +1,18 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: challenges
+  namespace: kplogesh-dev
+  labels:
+    app: challenges
+spec:
+  host: 
+  to:
+    kind: Service
+    name: challenges
+    weight: 100
+  port:
+    targetPort: http-server
+  tls:
+    termination: edge
+  wildcardPolicy: None

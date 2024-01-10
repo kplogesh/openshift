@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: build-container
+  namespace: kplogesh-dev
+spec:
+  params:
+    - default: 'https://github.com/kplogesh/openshift.git'
+      description: Repository URL
+      name: REPO_URL
+      type: string
+    - default: 'msr-test'
+      description: 'MSR Test'
+      name: IMAGE_NAME
+      type: string
+  steps:
+    - name: git-source
+      image: alpine/git
+      script: |
+        git clone $(inputs.params.REPO_URL) /workspace/source
+        ls -l /workspace/source
+    - name: start-build
+      image: openshift/origin-cli
+      script: |
+        cd /workspace/source
+        oc start-build msr-build-config
+    - name: buildah-build-step
+      image: buildah/buildah
+      securityContext:
+        privileged:: true
+      command:
+        - /bin/sh
+        - -c
+      args:
+        - |
+          buildah bud -t docker-app-image:latest .
