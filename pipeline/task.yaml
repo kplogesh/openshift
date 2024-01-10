@@ -13,6 +13,10 @@ spec:
       description: 'MSR Test'
       name: IMAGE_NAME
       type: string
+    - default: latest
+      description: 'Image Tag'
+      name: IMAGE_TAG
+      type: string
   steps:
     - name: git-source
       image: alpine/git
@@ -23,15 +27,13 @@ spec:
       image: openshift/origin-cli
       script: |
         cd /workspace/source
-
-        # Switch to the correct project
-        oc project kplogesh-dev
-
         # Apply the ImageStream configuration
         oc apply -f pipeline/imageStream.yaml || { echo "Error applying ImageStream configuration"; exit 1; }
 
         # Apply the BuildConfig configuration
         oc process -f pipeline/buildConfig.yaml -p IMAGE_TAG=$(params.IMAGE_TAG) | oc apply -f - || { echo "Error applying BuildConfig configuration"; exit 1; }
+        oc process -f pipeline/imageStream.yaml -p IMAGE_TAG=$(params.IMAGE_TAG) | oc apply -f - || { echo "Error applying ImageStream configuration"; exit 1; }
+
     - name: start-build 
       image: openshift/origin-cli
       script: |
