@@ -28,10 +28,10 @@ spec:
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
-        oc apply -f buildconfig/imagestream.yaml
+        oc apply -f buildconfig/image-stream.yaml
 
         # Apply the BuildConfig configuration
-        oc apply -f buildconfig/buildconfig.yaml
+        oc apply -f buildconfig/build-config.yaml
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
