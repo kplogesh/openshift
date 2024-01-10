@@ -21,4 +21,4 @@ spec:
     - name: fitness-build-container
       taskRef:
         kind: Task
-        name: build-container
+        name: fitness-build-container
