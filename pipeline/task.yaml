@@ -23,15 +23,25 @@ spec:
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
         ls -l /workspace/source/buildconfig
+    - name: create-fitness-buildconfig
+      image: openshift/origin-cli
+      script: |
+        cd /workspace/source
+        # Apply the ImageStream configuration
+        oc create -f buildconfig/image-stream.yaml
+
+        # Apply the BuildConfig configuration
+        oc create -f buildconfig/build-config.yaml
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
-        oc apply -f buildconfig/image-stream.yaml
+        # oc apply -f buildconfig/image-stream.yaml
+        oc apply set-last-applied -f buildconfig/image-stream.yaml --create-annotation=true
 
         # Apply the BuildConfig configuration
-        oc apply -f buildconfig/build-config.yaml
+        oc apply set-last-applied -f buildconfig/build-config.yaml --create-annotation=true
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
