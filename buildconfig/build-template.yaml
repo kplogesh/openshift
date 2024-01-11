@@ -1,0 +1,47 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: fitness-build-template
+objects:
+  - kind: BuildConfig
+    apiVersion: build.openshift.io/v1
+    metadata:
+      name: fitness-buildconfig
+      annotations:
+        description: Defines how to build the application
+    spec:
+      source:
+        type: Git
+        git:
+          uri: "${REPO_URL}" 
+          ref: "${REPO_REF}"
+        contextDir: "${CONTEXT_DIR}"
+      strategy:
+          dockerStrategy:
+          type: Docker
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${IMAGE_NAME}:${IMAGE_TAG}
+parameters:
+  - name: REPO_URL
+    displayName: Source Repository URL 
+    description: The URL of the repository with your application source code 
+    value: ${REPO_URL}
+    required: true 
+  - name: REPO_REF
+    displayName: Repository Branch
+    description: The branch of the respository 
+    value: ${REPO_REF}
+    required: true 
+  - name: IMAGE_TAG
+    displayName: Image Tag
+    description: Image Tag
+    value: ${IMAGE_TAG}
+    required: true 
+  - name: IMAGE_NAME
+    displayName: Image Name
+    description: Image Name
+    value: ${IMAGE_NAME}
+    required: true 
+message: "... Successful ..." 
