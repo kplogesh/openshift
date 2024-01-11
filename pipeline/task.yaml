@@ -31,8 +31,8 @@ spec:
       image: openshift/origin-cli
       script: |
         cd /workspace/source
-        if oc get imagestream fitness-msr -n $(inputs.params.NAMESPACE) &> /dev/null; then
-          echo "ImageStream 'fitness-msr' already exists. Skipping creation."
+        if oc get imagestream fitness-msr:latest -n $(inputs.params.NAMESPACE) &> /dev/null; then
+          echo "ImageStream 'fitness-msr:latest' already exists. Skipping creation."
         else
           echo "ImageStream 'fitness-msr' does not exist. Creating..."
           oc create -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
