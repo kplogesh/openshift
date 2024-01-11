@@ -9,6 +9,10 @@ spec:
       description: Repository URL
       name: REPO_URL
       type: string
+    - default: 'master'
+      description: Repository URL
+      name: REPO_REF
+      type: string
     - default: 'fitness-msr'
       description: 'MSR Test'
       name: IMAGE_NAME

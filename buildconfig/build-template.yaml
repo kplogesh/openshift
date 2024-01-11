@@ -15,7 +15,6 @@ objects:
         git:
           uri: "${REPO_URL}" 
           ref: "${REPO_REF}"
-        contextDir: "${CONTEXT_DIR}"
       strategy:
           dockerStrategy:
           type: Docker
