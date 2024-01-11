@@ -48,7 +48,8 @@ spec:
           # Check if the error message contains "NotFound"
           if [[ $error_message == *"NotFound"* ]]; then
             echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) does not exist. It will be attempted to Create."
-            oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
+            # oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
+            oc process -f buildconfig/imagestreamtag-template.yaml -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
           else
             # Handle other errors
             echo "An error occurred: $error_message"
@@ -56,8 +57,7 @@ spec:
         fi
 
         # Create the BuildConfig
-        oc process -f buildconfig/build-template.yaml -p REPO_URL=$(inputs.params.REPO_URL) -p REPO_REF=$(inputs.params.REPO_REF) -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
-        # oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
+        oc process -f buildconfig/buildconfig-template.yaml -p REPO_URL=$(inputs.params.REPO_URL) -p REPO_REF=$(inputs.params.REPO_REF) -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |

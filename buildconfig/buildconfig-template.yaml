@@ -1,7 +1,7 @@
 kind: Template
 apiVersion: template.openshift.io/v1
 metadata:
-  name: fitness-build-template
+  name: fitness-buildconfig-template
 objects:
   - kind: BuildConfig
     apiVersion: build.openshift.io/v1
@@ -22,10 +22,6 @@ objects:
         to:
           kind: ImageStreamTag
           name: ${IMAGE_NAME}:${IMAGE_TAG}
-  - kind: ImageStreamTag
-    apiVersion: image.openshift.io/v1
-    metadata:
-      name: ${IMAGE_NAME}:${IMAGE_TAG}
 parameters:
   - name: REPO_URL
     displayName: Source Repository URL 

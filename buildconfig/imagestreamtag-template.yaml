@@ -1,0 +1,21 @@
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: fitness-imagestreamtag-template
+objects:
+  - kind: ImageStreamTag
+    apiVersion: image.openshift.io/v1
+    metadata:
+      name: ${IMAGE_NAME}:${IMAGE_TAG}
+parameters:
+  - name: IMAGE_TAG
+    displayName: Image Tag
+    description: Image Tag
+    value: ${IMAGE_TAG}
+    required: true 
+  - name: IMAGE_NAME
+    displayName: Image Name
+    description: Image Name
+    value: ${IMAGE_NAME}
+    required: true 
+message: "... Successful ..." 
