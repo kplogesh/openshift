@@ -50,12 +50,11 @@ spec:
         cd /workspace/source
         # Apply the ImageStream configuration
         # oc apply -f buildconfig/image-stream.yaml
-        oc apply set-last-applied -f buildconfig/imagestream.yaml --create-annotation=true -n $(inputs.params.NAMESPACE
+        oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE
 
         # Apply the BuildConfig configuration
-        oc apply set-last-applied -f buildconfig/buildconfig.yaml --create-annotation=true -n $(inputs.params.NAMESPACE)
+        oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
-        cd /workspace/source
         oc start-build fitness-buildconfig
