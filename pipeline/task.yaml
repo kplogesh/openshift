@@ -34,16 +34,12 @@ spec:
       args:
         - |-
           echo Applying manifests -----
-          # Check if ImageStreamTag with the specified tag exists
-          if oc get imagestreamtag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) -n $NAMESPACE &> /dev/null; then
-            echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) exists. Skipped."
-          else
-            # If doesn't exist, create the ImageStreamTag
-            echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) does not exist. It will be attempted to Create."
-            oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
-          fi
 
-          # Create the buildconfig
+          # Create the ImageStream
+          oc get imagestreamtag $(inputs.params.IMAGE_NAME) -n $NAMESPACE
+          oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
+  
+          # Create the BuildConfig
           oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
     - name: start-fitness-build 
       image: openshift/origin-cli
