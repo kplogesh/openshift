@@ -17,7 +17,7 @@ spec:
       description: 'Image Tag'
       name: IMAGE_TAG
       type: string
-    - default: default
+    - default: kplogesh-dev
       description: 'Namespace'
       name: NAMESPACE
       type: string
@@ -35,14 +35,14 @@ spec:
           echo "ImageStream 'fitness-msr' already exists. Skipping creation."
         else
           echo "ImageStream 'fitness-msr' does not exist. Creating..."
-          oc create -f pipeline/imagestream.yaml -n $(inputs.params.NAMESPACE)
+          oc create -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
         fi
 
         if oc get buildconfig fitness-buildconfig -n $(inputs.params.NAMESPACE) &> /dev/null; then
           echo "BuildConfig 'fitness-buildconfig' already exists. Skipping creation."
         else
           echo "BuildConfig 'fitness-buildconfig' does not exist. Creating..."
-          oc create -f pipeline/buildconfig.yaml -n $(inputs.params.NAMESPACE)
+          oc create -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
         fi
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
