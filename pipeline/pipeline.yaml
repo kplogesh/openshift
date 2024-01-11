@@ -17,6 +17,10 @@ spec:
       description: 'Image Tag'
       name: IMAGE_TAG
       type: string
+    - default: default
+      description: 'Namespace'
+      name: NAMESPACE
+      type: string
   tasks:
     - name: fitness-build-container
       taskRef:

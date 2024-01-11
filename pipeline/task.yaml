@@ -17,6 +17,10 @@ spec:
       description: 'Image Tag'
       name: IMAGE_TAG
       type: string
+    - default: default
+      description: 'Namespace'
+      name: NAMESPACE
+      type: string
   steps:
     - name: git-source
       image: alpine/git
@@ -27,21 +31,29 @@ spec:
       image: openshift/origin-cli
       script: |
         cd /workspace/source
-        # Apply the ImageStream configuration
-        oc create -f buildconfig/image-stream.yaml
+        if oc get imagestream fitness-msr -n $(inputs.params.NAMESPACE) &> /dev/null; then
+          echo "ImageStream 'fitness-msr' already exists. Skipping creation."
+        else
+          echo "ImageStream 'fitness-msr' does not exist. Creating..."
+          oc create -f pipeline/imageStream.yaml -n $(inputs.params.NAMESPACE)
+        fi
 
-        # Apply the BuildConfig configuration
-        oc create -f buildconfig/build-config.yaml
+        if oc get buildconfig fitness-buildconfig -n $(inputs.params.NAMESPACE) &> /dev/null; then
+          echo "BuildConfig 'fitness-buildconfig' already exists. Skipping creation."
+        else
+          echo "BuildConfig 'fitness-buildconfig' does not exist. Creating..."
+          oc create -f pipeline/build-config.yaml -n $(inputs.params.NAMESPACE)
+        fi
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
         # oc apply -f buildconfig/image-stream.yaml
-        oc apply set-last-applied -f buildconfig/image-stream.yaml --create-annotation=true
+        oc apply set-last-applied -f buildconfig/image-stream.yaml --create-annotation=true -n $(inputs.params.NAMESPACE)
 
         # Apply the BuildConfig configuration
-        oc apply set-last-applied -f buildconfig/build-config.yaml --create-annotation=true
+        oc apply set-last-applied -f buildconfig/build-config.yaml --create-annotation=true -n $(inputs.params.NAMESPACE)
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
