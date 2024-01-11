@@ -26,3 +26,12 @@ spec:
       taskRef:
         kind: Task
         name: fitness-build-container
+      params:
+      - name: REPO_URL
+        value: $(params.REPO_URL)
+      - name: IMAGE_NAME
+        value: $(params.IMAGE_NAME)
+      - name: IMAGE_TAG
+        value: $(params.IMAGE_TAG)
+      - name: NAMESPACE
+        value: $(params.NAMESPACE)

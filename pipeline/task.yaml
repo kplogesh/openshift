@@ -29,13 +29,13 @@ spec:
         ls -l /workspace/source/buildconfig
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
-      script: |
-        cd /workspace/source
-        # Apply the ImageStream configuration
-        oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
-
-        # Apply the BuildConfig configuration
-        oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
+      workingDir: /workspace/source
+      command: ["/bin/bash", "-c"]
+      args:
+        - |-
+          echo Applying manifests -----
+          oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
+          oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
