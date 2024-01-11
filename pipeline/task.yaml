@@ -27,29 +27,11 @@ spec:
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
         ls -l /workspace/source/buildconfig
-    - name: create-fitness-buildconfig
-      image: openshift/origin-cli
-      script: |
-        cd /workspace/source
-        if oc get imagestream fitness-msr:latest -n $(inputs.params.NAMESPACE) &> /dev/null; then
-          echo "ImageStream 'fitness-msr:latest' already exists. Skipping creation."
-        else
-          echo "ImageStream 'fitness-msr' does not exist. Creating..."
-          oc create --save-config=true -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
-        fi
-
-        if oc get buildconfig fitness-buildconfig -n $(inputs.params.NAMESPACE) &> /dev/null; then
-          echo "BuildConfig 'fitness-buildconfig' already exists. Skipping creation."
-        else
-          echo "BuildConfig 'fitness-buildconfig' does not exist. Creating..."
-          oc create --save-config=true -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
-        fi
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
       script: |
         cd /workspace/source
         # Apply the ImageStream configuration
-        # oc apply -f buildconfig/image-stream.yaml
         oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
 
         # Apply the BuildConfig configuration
