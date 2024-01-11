@@ -1,24 +1,17 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
+  generateName: fitness-build-run
   namespace: kplogesh-dev
 spec:
-  params:
-    - default: 'https://github.com/kplogesh/openshift.git'
-      description: Repository URL
-      name: REPO_URL
-      type: string
-    - default: 'msr-test'
-      description: 'MSR Test'
-      name: IMAGE_NAME
-      type: string
-    - default: latest
-      description: 'Image Tag'
-      name: IMAGE_TAG
-      type: string
-    - default: default
-      description: 'Namespace'
-      name: NAMESPACE
-      type: string
   pipelineRef:
     name: fitness-build
+  params:
+    - name: REPO_URL
+      value: 'https://github.com/kplogesh/openshift.git'
+    - name: IMAGE_NAME
+      value: 'msr-test'
+    - name: IMAGE_TAG
+      value: 'latest'
+    - name: NAMESPACE
+      value: 'default'
