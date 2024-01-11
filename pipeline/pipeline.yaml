@@ -9,7 +9,7 @@ spec:
       description: Repository URL
       name: REPO_URL
       type: string
-    - default: 'msr-test'
+    - default: 'fitness-msr'
       description: 'MSR Test'
       name: IMAGE_NAME
       type: string
@@ -17,7 +17,7 @@ spec:
       description: 'Image Tag'
       name: IMAGE_TAG
       type: string
-    - default: default
+    - default: kplogesh-dev
       description: 'Namespace'
       name: NAMESPACE
       type: string

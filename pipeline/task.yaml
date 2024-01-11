@@ -22,7 +22,7 @@ spec:
       name: NAMESPACE
       type: string
   steps:
-    - name: git-source
+    - name: fetch-repository
       image: alpine/git
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
@@ -30,17 +30,30 @@ spec:
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
       workingDir: /workspace/source
-      command: ["/bin/bash", "-c"]
-      args:
-        - |-
-          echo Applying manifests -----
+      script: |
+        echo Applying manifests -----
 
-          # Create the ImageStream
-          oc get imagestreamtag $(inputs.params.IMAGE_NAME) -n $NAMESPACE
-          oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
-  
-          # Create the BuildConfig
-          oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
+        # Attempt to execute the oc get command
+        if result=$(oc get imagestreamtag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) -n $(inputs.params.NAMESPACE) 2>&1); then
+          # If successful, execute existing code when imagestreamtag is found
+          echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) exists. Skipped."
+        else
+          # If there is an error, capture the error message
+          error_message=$result
+
+          # Check if the error message contains "NotFound"
+          if [[ $error_message == *"NotFound"* ]]; then
+            echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) does not exist. It will be attempted to Create."
+            oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
+          else
+            # Handle other errors
+            echo "An error occurred: $error_message"
+          fi
+        fi
+
+        # Create the BuildConfig
+        oc process -f buildconfig/buildconfig.yaml -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
+        # oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)
     - name: start-fitness-build 
       image: openshift/origin-cli
       script: |
