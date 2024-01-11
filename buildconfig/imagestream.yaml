@@ -1,7 +1,7 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStreamTag
 metadata:
-  name: fitness-msr:1.0.0
+  name: fitness-msr
 spec:
   tags:
     - name: 1.0.0
