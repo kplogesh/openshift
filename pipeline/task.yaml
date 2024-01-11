@@ -50,7 +50,7 @@ spec:
         cd /workspace/source
         # Apply the ImageStream configuration
         # oc apply -f buildconfig/image-stream.yaml
-        oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE
+        oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
 
         # Apply the BuildConfig configuration
         oc apply -f buildconfig/buildconfig.yaml -n $(inputs.params.NAMESPACE)

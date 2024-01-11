@@ -4,4 +4,4 @@ metadata:
   name: fitness-msr:latest
 spec:
   tags:
-    - name: 1.0.0
+    - name: latest
