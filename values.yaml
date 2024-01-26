@@ -30,7 +30,10 @@ containerName:
 extraLabels: {}
 
 # -- Exta volumes that should be mounted.
-extraVolumes: []
+extraVolumes: 
+  - name: challenges-appconfig
+    configMap:
+      name: challenges-appconfig
 # - name: extras
 #   emptyDir: {}
 
@@ -55,7 +58,9 @@ secretVolumes: []
 #   secretName: msr-secrets
 
 # -- Extra volume mounts
-extraVolumeMounts: []
+extraVolumeMounts: 
+  - name: fchallenges-appconfig
+    mountPath: /opt/softwareag/IntegrationServer/
 # - name: extras
 #   mountPath: /usr/share/extras
 #   readOnly: true
