@@ -30,7 +30,6 @@ spec:
       image: alpine/git
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
-        ls -l /workspace/source/buildconfig
     - name: apply-fitness-buildconfig
       image: openshift/origin-cli
       workingDir: /workspace/source

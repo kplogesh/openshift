@@ -1,0 +1,24 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: multi-repo-docker-buildconfig
+spec:
+  strategy:
+    customStrategy:
+      from:
+        name: your-base-image:latest
+      script: |
+        #!/bin/bash
+
+        git clone https://github.com/kplogesh/openshift /workspace/source/
+
+        cd /workspace/source/repo1
+        # Additional build steps for repo1
+
+        # Build the final Docker image
+        docker build -t docker-app-image:latest .
+      dockerfilePath: Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: docker-app-image:latest
