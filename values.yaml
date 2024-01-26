@@ -59,7 +59,7 @@ secretVolumes: []
 
 # -- Extra volume mounts
 extraVolumeMounts: 
-  - name: fchallenges-appconfig
+  - name: challenges-appconfig
     mountPath: /opt/softwareag/IntegrationServer/
 # - name: extras
 #   mountPath: /usr/share/extras
