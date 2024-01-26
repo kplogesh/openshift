@@ -60,7 +60,7 @@ secretVolumes: []
 # -- Extra volume mounts
 extraVolumeMounts: 
   - name: challenges-appconfig
-    mountPath: /opt/softwareag/IntegrationServer/
+    mountPath: /opt/softwareag/IntegrationServer/test/
 # - name: extras
 #   mountPath: /usr/share/extras
 #   readOnly: true
