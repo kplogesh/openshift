@@ -68,8 +68,8 @@ secretVolumes: []
 #   secretName: msr-secrets
 
 configMapName: c1
-#computedHash: "{{- printf \"%s\" (print (exec \"kubectl\" \"get\" \"configmap\" \"c1\" \"-o\" \"jsonpath={.data}\" | b64enc) \"\\n\") | sha256sum | awk '{print $1}' | trunc 32 | quote }}"
-computedHash: "test"
+computedHash: {{ .Files.Get (printf "templates/compute-hash.tpl" | quote) | b64enc | quote }}
+
 # -- Extra volume mounts
 extraVolumeMounts: 
   - name: appconfig
