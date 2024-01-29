@@ -7,4 +7,4 @@ metadata:
     version: v1.0
 data:
   application1.properties: |
-    globalvariable.mem_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers
+    globalvariable.mem_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers123
