@@ -68,7 +68,7 @@ secretVolumes: []
 #   secretName: msr-secrets
 
 configMapName: c1
-computedHash: "{{- printf \"%s\" (print (exec \"kubectl\" \"get\" \"configmap\" .Values.configMapName \"-o\" \"jsonpath={.data}\" | b64enc) \"\\n\") | sha256sum | awk '{print $1}' | trunc 32 | quote }}"
+computedHash: "{{- printf \"%s\" (print (exec \"kubectl\" \"get\" \"configmap\" \"c1\" \"-o\" \"jsonpath={.data}\" | b64enc) \"\\n\") | sha256sum | awk '{print $1}' | trunc 32 | quote }}"
 
 # -- Extra volume mounts
 extraVolumeMounts: 
