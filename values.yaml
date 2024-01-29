@@ -31,9 +31,19 @@ extraLabels: {}
 
 # -- Exta volumes that should be mounted.
 extraVolumes: 
-  - name: challenges-appconfig
-    configMap:
-      name: challenges-appconfig
+  - name: appconfig
+    projected:
+      sources:
+      - configMap:
+          name: c1
+          items:
+            - key: application1.properties
+              path: application1.properties
+      - configMap:
+          name: c2
+          items:
+            - key: application2.properties
+              path: application2.properties
 # - name: extras
 #   emptyDir: {}
 
@@ -59,8 +69,8 @@ secretVolumes: []
 
 # -- Extra volume mounts
 extraVolumeMounts: 
-  - name: challenges-appconfig
-    mountPath: /opt/softwareag/IntegrationServer/test/
+  - name: appconfig
+    mountPath: /opt/softwareag/IntegrationServer/AppConfig/
 # - name: extras
 #   mountPath: /usr/share/extras
 #   readOnly: true
