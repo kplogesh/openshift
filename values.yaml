@@ -67,8 +67,8 @@ secretVolumes: []
 # - name: msr-secrets
 #   secretName: msr-secrets
 
-configMapPath: /configmap/application/extended/c1.yaml
-computedHash: {{ tpl .Files.Get .Values.configMapPath | sha256sum | trunc 32 | quote }}
+configMapName: c1
+computedHash: "{{- printf \"%s\" (print (exec \"kubectl\" \"get\" \"configmap\" .Values.configMapName \"-o\" \"jsonpath={.data}\" | b64enc) \"\\n\") | sha256sum | awk '{print $1}' | trunc 32 | quote }}"
 
 # -- Extra volume mounts
 extraVolumeMounts: 
