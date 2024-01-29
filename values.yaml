@@ -67,6 +67,9 @@ secretVolumes: []
 # - name: msr-secrets
 #   secretName: msr-secrets
 
+configMapPath: /configmap/application/extended/c1.yaml
+computedHash: {{ tpl .Files.Get .Values.configMapPath | sha256sum | trunc 32 | quote }}
+
 # -- Extra volume mounts
 extraVolumeMounts: 
   - name: appconfig
