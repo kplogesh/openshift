@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: c1
+  labels:
+    app: challenges
+    version: v1.0
+data:
+  application1.properties: |
+    globalvariable.mem_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers

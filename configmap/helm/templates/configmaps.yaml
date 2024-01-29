@@ -1,0 +1,23 @@
+{{ range .Values.extraConfigMaps }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+{{- if .binaryData }}
+binaryData:
+  {{- range $key, $val := .binaryData }}
+  {{ $key }}: {{ $val | b64enc }}
+  {{- end }}
+{{- else }}
+data:
+  {{- range $key, $val := .data }}
+  {{ $key }}: |-
+    {{- if kindIs "string" $val }}
+    {{ tpl $val $ | nindent 4 }}
+    {{- else }}
+    {{ toYaml $val | nindent 4 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
