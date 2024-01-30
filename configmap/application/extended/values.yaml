@@ -1,0 +1,9 @@
+extraFiles:
+  - fileName: file1.txt
+    content: |
+      key1: value1
+      key2: value2
+  - fileName: file2.txt
+    content: |
+      key3: value3
+      key4: value4
