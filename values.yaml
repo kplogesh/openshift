@@ -27,7 +27,8 @@ fullnameOverride: ""
 containerName: 
 
 # -- Extra Labels
-extraLabels: {}
+extraLabels: 
+  checksum/config: "test12345"
 
 # -- Exta volumes that should be mounted.
 extraVolumes: 
@@ -68,6 +69,7 @@ secretVolumes: []
 #   secretName: msr-secrets
 
 computedConfigHash: "test12345"
+
 # -- Extra volume mounts
 extraVolumeMounts: 
   - name: appconfig
