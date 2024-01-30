@@ -26,6 +26,7 @@ fullnameOverride: ""
 # -- The name of the main container, by default this will be msr-<release_name>
 containerName: 
 
+revisionHistoryLimit: 2
 # -- Extra Labels
 extraLabels: 
   checksum/config: "test12345"
