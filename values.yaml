@@ -29,7 +29,7 @@ containerName:
 revisionHistoryLimit: 2
 # -- Extra Labels
 extraLabels: 
-  checksum/config: "test12345"
+  checksum/config: "test123456"
 
 # -- Exta volumes that should be mounted.
 extraVolumes: 
