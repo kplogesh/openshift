@@ -67,7 +67,7 @@ secretVolumes: []
 # - name: msr-secrets
 #   secretName: msr-secrets
 
-computedConfigHash: "test123"
+computedConfigHash: "test1234"
 # -- Extra volume mounts
 extraVolumeMounts: 
   - name: appconfig
