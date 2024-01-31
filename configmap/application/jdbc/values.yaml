@@ -23,7 +23,7 @@ extraConfigMaps:
   - metadata:
       name: extra-ports-test
     data:
-      manifest.v3: |
+      manifest.v3111: |
         <?xml version="1.0" encoding="UTF-8"?>
             <Values version="2.0">
             <value name="enabled">yes</value>
