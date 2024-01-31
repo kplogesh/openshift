@@ -20,7 +20,7 @@ extraConfigMaps:
             <null name="extendedProperties"/>
         </Values>
   - name: extra-ports-test
-    data:
+    binaryData:
       manifest.v3111: |
         <?xml version="1.0" encoding="UTF-8"?>
             <Values version="2.0">
