@@ -1,9 +1,43 @@
-extraFiles:
-  - fileName: file5.txt
-    content: |
-      key1: value1
-      key2: value2
-  - fileName: file6.txt
-    content: |
-      key3: value3
-      key4: value4
+extraConfigMaps:
+  - metadata:
+      name: extra-ports
+    data:
+      manifest.v3: |
+        <?xml version="1.0" encoding="UTF-8"?>
+            <Values version="2.0">
+            <value name="enabled">yes</value>
+            <value name="system_package">no</value>
+            <value name="version">1.0</value>
+            <null name="startup_services"/>
+            <null name="shutdown_services"/>
+            <null name="replication_services"/>
+            <null name="requires"/>
+            <null name="listACL"/>
+            <value name="webappLoad">yes</value>
+            <value name="reloadWithDependentPackage">yes</value>
+            <null name="build"/>
+            <null name="description"/>
+            <value name="created_date">09-06-2023 12:59:30 GMT</value>
+            <null name="extendedProperties"/>
+        </Values>
+  - metadata:
+      name: extra-ports-test
+    data:
+      manifest.v3: |
+        <?xml version="1.0" encoding="UTF-8"?>
+            <Values version="2.0">
+            <value name="enabled">yes</value>
+            <value name="system_package">no</value>
+            <value name="version">1.0</value>
+            <null name="startup_services"/>
+            <null name="shutdown_services"/>
+            <null name="replication_services"/>
+            <null name="requires"/>
+            <null name="listACL"/>
+            <value name="webappLoad">yes</value>
+            <value name="reloadWithDependentPackage">yes</value>
+            <null name="build"/>
+            <null name="description"/>
+            <value name="created_date">09-06-2023 12:59:30 GMT</value>
+            <null name="extendedProperties"/>
+        </Values>
