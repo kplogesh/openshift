@@ -33,19 +33,25 @@ extraLabels:
 
 # -- Exta volumes that should be mounted.
 extraVolumes: 
+  - name: solution-file-pkg1
+    configMap:
+      name: solution-file-pkg1
+  - name: solution-file-pkg2
+    configMap:
+      name: solution-file-pkg2
   - name: appconfig
     projected:
       sources:
       - configMap:
-          name: c1
+          name: jdbc-adapter
           items:
-            - key: application1.properties
-              path: application1.properties
+            - key: jdbc-adapter.properties
+              path: jdbc-adapter.properties
       - configMap:
-          name: c2
+          name: sap-adapter
           items:
-            - key: application2.properties
-              path: application2.properties
+            - key: sap-adapter.properties
+              path: sap-adapter.properties
 # - name: extras
 #   emptyDir: {}
 
@@ -75,6 +81,10 @@ computedConfigHash: "test12345"
 extraVolumeMounts: 
   - name: appconfig
     mountPath: /opt/softwareag/IntegrationServer/AppConfig/
+  - name: solution-file-pkg1
+    mountPath: /opt/softwareag/IntegrationServer/packages/Default/config/solution-file-pkg1.csv
+  - name: solution-file-pkg2
+    mountPath: /opt/softwareag/IntegrationServer/packages/Default/config/solution-file-pkg2.csv
 # - name: extras
 #   mountPath: /usr/share/extras
 #   readOnly: true

@@ -1,41 +1,9 @@
 extraConfigMaps:
-  - name: extra-ports
+  - name: jdbc-adapter
     data:
-      manifest.v3test: |
-        <?xml version="1.0" encoding="UTF-8"?>
-            <Values version="2.0">
-            <value name="enabled">yes</value>
-            <value name="system_package">no</value>
-            <value name="version">1.0</value>
-            <null name="startup_services"/>
-            <null name="shutdown_services"/>
-            <null name="replication_services"/>
-            <null name="requires"/>
-            <null name="listACL"/>
-            <value name="webappLoad">yes</value>
-            <value name="reloadWithDependentPackage">yes</value>
-            <null name="build"/>
-            <null name="description"/>
-            <value name="created_date">09-06-2023 12:59:30 GMT</value>
-            <null name="extendedProperties"/>
-        </Values>
-  - name: extra-ports-test
-    binaryData:
-      manifest.v3111: |
-        <?xml version="1.0" encoding="UTF-8"?>
-            <Values version="2.0">
-            <value name="enabled">yes</value>
-            <value name="system_package">no</value>
-            <value name="version">1.0</value>
-            <null name="startup_services"/>
-            <null name="shutdown_services"/>
-            <null name="replication_services"/>
-            <null name="requires"/>
-            <null name="listACL"/>
-            <value name="webappLoad">yes</value>
-            <value name="reloadWithDependentPackage">yes</value>
-            <null name="build"/>
-            <null name="description"/>
-            <value name="created_date">09-06-2023 12:59:30 GMT</value>
-            <null name="extendedProperties"/>
-        </Values>
+      jdbc-adapter.properties: |
+        globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers123
+  - name: sap-adapter
+    data:
+      sap-adapter.properties: |
+        globalvariable.mem_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers
