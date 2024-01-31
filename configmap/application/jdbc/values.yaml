@@ -1,6 +1,5 @@
 extraConfigMaps:
-  - metadata:
-      name: extra-ports
+  - name: extra-ports
     data:
       manifest.v3test: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -20,8 +19,7 @@ extraConfigMaps:
             <value name="created_date">09-06-2023 12:59:30 GMT</value>
             <null name="extendedProperties"/>
         </Values>
-  - metadata:
-      name: extra-ports-test
+  - name: extra-ports-test
     data:
       manifest.v3111: |
         <?xml version="1.0" encoding="UTF-8"?>
