@@ -1,11 +1,6 @@
-extraFiles:
-  - name: solution-file-pkg1
+extraConfigMaps:
+  int-cfg:
+    name: int-adapter
     data:
-      solution-file-pkg1.csv: |
-        a,b,c
-        b,c,d,e
-  - name: solution-file-pkg2
-    data:
-      solution-file-pkg2.csv: |
-        a,b,c
-        b,c,d,e
+      test.properties: |
+        globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers123

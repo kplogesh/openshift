@@ -1,9 +1,8 @@
 extraConfigMaps:
-  - name: jdbc-adapter
+  is-cfg:
+    name: jdbc-adapter
     data:
       jdbc-adapter.properties: |
         globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers123
-  - name: sap-adapter
-    data:
       sap-adapter.properties: |
         globalvariable.mem_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers
