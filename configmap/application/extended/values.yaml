@@ -1,31 +1,28 @@
 extraConfigMaps:
   int-cfg:
-    name: int-adapter
+    automount: true
+    automountDir: /opt/softwareag/IntegrationServer/msr-cfg
     data:
       test.properties: |
         globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers12354
 
 secrets:
-  - name: msr-secrets
-    kind: Secret 
-    type: Opaque
+  msr-secrets:
+    automount: true
+    automountDir: /etc/secrets
+    kind: Secret
+    type: Opaque 
     data:
       username: test
       password: test
-#  - name: msr-secrets
-#    kind: Secret 
-#    type: Opaque
-#    data:
-#      username: test
-#      password: test
       
       
 # -- Secret mounts, A list of secrets and their paths to mount inside the pod
-secretMounts: 
-  - name: msr-secrets
-    path: /etc/secrets
+# secretMounts: 
+#   - name: msr-secrets
+#     path: /etc/secrets
 
 # -- Secret volumes, A list of secrets
-secretVolumes: 
-  - name: msr-secrets
-    secretName: msr-secrets
+# secretVolumes: 
+#   - name: msr-secrets
+#     secretName: msr-secrets
