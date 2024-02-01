@@ -25,7 +25,7 @@ secretMounts:
   - name: msr-secrets
     path: /etc/secrets
   - name: interface-secrets
-    path: /etc/secrets/test
+    path: /etc/secrets
 
 # -- Secret volumes, A list of secrets
 secretVolumes: 
