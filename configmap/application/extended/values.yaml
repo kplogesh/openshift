@@ -12,24 +12,20 @@ secrets:
     data:
       username: test
       password: test
-  - name: interface-secrets
-    kind: Secret 
-    type: Opaque
-    data:
-      username: test
-      password: test
+#  - name: msr-secrets
+#    kind: Secret 
+#    type: Opaque
+#    data:
+#      username: test
+#      password: test
       
       
 # -- Secret mounts, A list of secrets and their paths to mount inside the pod
 secretMounts: 
   - name: msr-secrets
     path: /etc/secrets
-  - name: interface-secrets
-    path: /etc/secrets
 
 # -- Secret volumes, A list of secrets
 secretVolumes: 
   - name: msr-secrets
     secretName: msr-secrets
-  - name: interface-secrets
-    secretName: interface-secrets
