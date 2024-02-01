@@ -26,6 +26,8 @@ secretMounts:
     path: /etc/secrets
   - name: interface-secrets
     path: /etc/secrets
+  - name: interface-secrets-123
+    path: /etc/secrets
 
 # -- Secret volumes, A list of secrets
 secretVolumes: 
