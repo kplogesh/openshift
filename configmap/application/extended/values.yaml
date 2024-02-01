@@ -3,4 +3,4 @@ extraConfigMaps:
     name: int-adapter
     data:
       test.properties: |
-        globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers123
+        globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers12354
