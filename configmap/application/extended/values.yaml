@@ -24,14 +24,12 @@ secrets:
 secretMounts: 
   - name: msr-secrets
     path: /etc/secrets
-    defaultMode: 0755
   - name: interface-secrets
     path: /etc/secrets
-    defaultMode: 0755
 
 # -- Secret volumes, A list of secrets
 secretVolumes: 
- - name: msr-secrets
-   secretName: msr-secrets
- - name: interface-secrets
-   secretName: interface-secrets
+  - name: msr-secrets
+    secretName: msr-secrets
+  - name: interface-secrets
+    secretName: interface-secrets
