@@ -4,3 +4,34 @@ extraConfigMaps:
     data:
       test.properties: |
         globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers12354
+
+secrets:
+  - name: msr-secrets
+    kind: Secret 
+    type: Opaque
+    data:
+      username: test
+      password: test
+  - name: interface-secrets
+    kind: Secret 
+    type: Opaque
+    data:
+      username: test
+      password: test
+      
+      
+# -- Secret mounts, A list of secrets and their paths to mount inside the pod
+secretMounts: 
+  - name: msr-secrets
+    path: /etc/secrets
+    defaultMode: 0755
+  - name: interface-secrets
+    path: /etc/secrets
+    defaultMode: 0755
+
+# -- Secret volumes, A list of secrets
+secretVolumes: 
+ - name: msr-secrets
+   secretName: msr-secrets
+ - name: interface-secrets
+   secretName: interface-secrets
