@@ -28,34 +28,9 @@ containerName:
 
 revisionHistoryLimit: 2
 # -- Extra Labels
-extraLabels: 
-  checksum/config: "test1234567"
+extraLabels: {}
 
-# -- Exta volumes that should be mounted.
-extraVolumes: 
-  - name: solution-file-pkg1
-    configMap:
-      name: solution-file-pkg1
-  - name: solution-file-pkg2
-    configMap:
-      name: solution-file-pkg2
-  - name: is-cfg
-    configMap:
-      name: is-cfg
-      items:
-        - key: jdbc-adapter.properties
-          path: jdbc-adapter.properties
-        - key: sap-adapter.properties
-          path: sap-adapter.properties
 
-# -- Extra volume mounts
-extraVolumeMounts: 
-  - name: is-cfg
-    mountPath: /opt/softwareag/IntegrationServer/AppConfig/
-  - name: solution-file-pkg1
-    mountPath: /opt/softwareag/IntegrationServer/packages/Default/config/solution-file-pkg1.csv
-  - name: solution-file-pkg2
-    mountPath: /opt/softwareag/IntegrationServer/packages/Default/config/solution-file-pkg2.csv
 # - name: extras
 #   emptyDir: {}
 
