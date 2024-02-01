@@ -42,21 +42,6 @@ extraEnvs: []
 # -- Extra Ports to be defined, note: these ports need to be created 
 extraPorts: []
 
-# -- Secret mounts, A list of secrets and their paths to mount inside the pod
-secretMounts: []
-#  - name: default-secrets
-#    secretName: elastic-certificates
-#    path: /usr/share/elasticsearch/config/certs
-#    defaultMode: 0755
-
-# -- Secret volumes, A list of secrets
-secretVolumes: []
-# - name: msr-secrets
-#   secretName: msr-secrets
-
-computedConfigHash: "test12345"
-
-
 # - name: extras
 #   mountPath: /usr/share/extras
 #   readOnly: true
