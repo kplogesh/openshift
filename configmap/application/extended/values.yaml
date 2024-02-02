@@ -8,7 +8,7 @@ extraConfigMaps:
 
 secrets:
   msr-secrets:
-    automount: true
+    automount: false
     automountDir: /etc/secrets
     kind: Secret
     type: Opaque 
