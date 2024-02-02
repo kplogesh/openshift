@@ -18,5 +18,3 @@ imagePullSecrets:
 revisionHistoryLimit: 2
 
 microservicesruntime:
-  # -- Defines external runtime port
-  httpsPort:                5556
