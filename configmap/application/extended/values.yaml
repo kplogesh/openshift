@@ -15,6 +15,7 @@ secrets:
     data:
       username: test
       password: test
+      another: another
       
 
 # -- Secret mounts, A list of secrets and their paths to mount inside the pod
