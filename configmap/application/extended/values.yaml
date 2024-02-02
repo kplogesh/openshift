@@ -19,7 +19,7 @@ secrets:
       
 # -- Secret mounts, A list of secrets and their paths to mount inside the pod
 secretMounts: 
-  - name: msr-secrets-123
+  - name: msr-secrets
     path: /etc/secrets
 
 # -- Secret volumes, A list of secrets
