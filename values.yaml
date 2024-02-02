@@ -17,4 +17,4 @@ imagePullSecrets:
 
 revisionHistoryLimit: 2
 
-checksum: true
+checksum: false
