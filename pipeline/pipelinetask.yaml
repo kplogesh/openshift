@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: solution-build-container
+  name: solution-build-task
   namespace: kplogesh-dev
 spec:
   params:
