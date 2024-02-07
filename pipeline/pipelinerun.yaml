@@ -5,7 +5,7 @@ metadata:
   namespace: kplogesh-dev
 spec:
   pipelineRef:
-    name: fitness-build
+    name: solution-build
   params:
     - name: REPO_URL
       value: 'https://github.com/kplogesh/openshift.git'

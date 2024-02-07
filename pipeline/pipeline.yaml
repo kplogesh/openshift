@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: fitness-build
+  name: solution-build
   namespace: kplogesh-dev
 spec:
   params:
@@ -26,10 +26,10 @@ spec:
       name: NAMESPACE
       type: string
   tasks:
-    - name: fitness-build-container
+    - name: solution-build-container
       taskRef:
         kind: Task
-        name: fitness-build-container
+        name: solution-build-container
       params:
       - name: REPO_URL
         value: $(params.REPO_URL)

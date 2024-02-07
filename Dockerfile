@@ -1,2 +1,2 @@
-FROM kplogesh/openshift:msr1015
-ADD ./demo-repo-1/sourcecode/ /opt/softwareag/IntegrationServer/packages/
+FROM kimage-registry.openshift-image-registry.svc:5000/kplogesh-dev/msr-base:latest
+ADD ./sourcecode/msr-packages/ /opt/softwareag/IntegrationServer/packages/
