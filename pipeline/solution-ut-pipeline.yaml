@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: solution-build
+  name: solution-ut-pipeline
   namespace: kplogesh-dev
 spec:
   params:
@@ -13,7 +13,7 @@ spec:
       description: Repository URL
       name: REPO_REF
       type: string
-    - default: 'solution-msr'
+    - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/sag-ut-install-base'
       description: 'MSR Test'
       name: IMAGE_NAME
       type: string
@@ -26,10 +26,10 @@ spec:
       name: NAMESPACE
       type: string
   tasks:
-    - name: solution-build-container
+    - name: solution-ut-task
       taskRef:
         kind: Task
-        name: solution-build-task
+        name: solution-ut-task
       params:
       - name: REPO_URL
         value: $(params.REPO_URL)

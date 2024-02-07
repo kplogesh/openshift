@@ -1,15 +1,15 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: challenges
+  name: solution-msr
   namespace: kplogesh-dev
   labels:
-    app: challenges
+    app: solution-msr
 spec:
   host: 
   to:
     kind: Service
-    name: challenges
+    name: solution-msr
     weight: 100
   port:
     targetPort: http-server

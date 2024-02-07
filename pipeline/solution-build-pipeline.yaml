@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: solution-build-pipeline
+  namespace: kplogesh-dev
+spec:
+  params:
+    - default: 'https://github.com/kplogesh/openshift.git'
+      description: Repository URL
+      name: REPO_URL
+      type: string
+    - default: 'master'
+      description: Repository URL
+      name: REPO_REF
+      type: string
+    - default: 'solution-msr'
+      description: 'MSR Test'
+      name: IMAGE_NAME
+      type: string
+    - default: latest
+      description: 'Image Tag'
+      name: IMAGE_TAG
+      type: string
+    - default: kplogesh-dev
+      description: 'Namespace'
+      name: NAMESPACE
+      type: string
+  tasks:
+    - name: solution-build-task
+      taskRef:
+        kind: Task
+        name: solution-build-task
+      params:
+      - name: REPO_URL
+        value: $(params.REPO_URL)
+      - name: IMAGE_NAME
+        value: $(params.IMAGE_NAME)
+      - name: IMAGE_TAG
+        value: $(params.IMAGE_TAG)
+      - name: NAMESPACE
+        value: $(params.NAMESPACE)
