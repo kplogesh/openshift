@@ -13,7 +13,7 @@ spec:
       description: Repository URL
       name: REPO_REF
       type: string
-    - default: 'fitness-msr'
+    - default: 'solution-msr'
       description: 'MSR Test'
       name: IMAGE_NAME
       type: string
