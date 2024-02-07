@@ -30,34 +30,18 @@ spec:
       image: alpine/git
       script: |
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
-    - name: apply-fitness-buildconfig
+    - name: apply-solution-buildconfig
       image: openshift/origin-cli
       workingDir: /workspace/source
       script: |
         echo Applying manifests -----
 
-        # Attempt to execute the oc get command
-        if result=$(oc get imagestreamtag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) -n $(inputs.params.NAMESPACE) 2>&1); then
-          # If successful, execute existing code when imagestreamtag is found
-          echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) exists. Skipped."
-        else
-          # If there is an error, capture the error message
-          error_message=$result
-
-          # Check if the error message contains "NotFound"
-          if [[ $error_message == *"NotFound"* ]]; then
-            echo "ImageStreamTag $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG) does not exist. It will be attempted to Create."
-            # oc apply -f buildconfig/imagestream.yaml -n $(inputs.params.NAMESPACE)
-            oc process -f buildconfig/imagestreamtag-template.yaml -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
-          else
-            # Handle other errors
-            echo "An error occurred: $error_message"
-          fi
-        fi
+        # Create the imagestream
+        oc process -f buildconfig/imagestream-template.yaml -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) | oc apply -f -
 
         # Create the BuildConfig
         oc process -f buildconfig/buildconfig-template.yaml -p REPO_URL=$(inputs.params.REPO_URL) -p REPO_REF=$(inputs.params.REPO_REF) -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
-    - name: start-fitness-build 
+    - name: start-solution-build 
       image: openshift/origin-cli
       script: |
-        oc start-build fitness-buildconfig
+        oc start-build solution-buildconfig

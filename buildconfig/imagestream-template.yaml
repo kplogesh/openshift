@@ -1,12 +1,12 @@
 kind: Template
 apiVersion: template.openshift.io/v1
 metadata:
-  name: fitness-imagestreamtag-template
+  name: solution-imagestreamtag-template
 objects:
-  - kind: ImageStreamTag
+  - kind: ImageStream
     apiVersion: image.openshift.io/v1
     metadata:
-      name: ${IMAGE_NAME}:${IMAGE_TAG}
+      name: ${IMAGE_NAME}
 parameters:
   - name: IMAGE_TAG
     displayName: Image Tag

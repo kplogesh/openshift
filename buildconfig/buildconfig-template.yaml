@@ -1,12 +1,12 @@
 kind: Template
 apiVersion: template.openshift.io/v1
 metadata:
-  name: fitness-buildconfig-template
+  name: solution-buildconfig-template
 objects:
   - kind: BuildConfig
     apiVersion: build.openshift.io/v1
     metadata:
-      name: fitness-buildconfig
+      name: solution-buildconfig
       annotations:
         description: Defines how to build the application
     spec:
