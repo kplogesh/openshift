@@ -57,8 +57,13 @@ spec:
           volumeMounts:
             - mountPath: /opt/softwareag/IntegrationServer/bin/../config/licenseKey.xml
               subPath: licenseKey.xml
-              name: licensekey              
+              name: licensekey      
+            - name: report-volume
+              mountPath: /opt/softwareag/test/reports/        
       volumes:
         - name: licensekey
           configMap:
               name: webmethodslicensekeys
+        - name: report-volume
+          persistentVolumeClaim:
+            claimName: ts-report-storage

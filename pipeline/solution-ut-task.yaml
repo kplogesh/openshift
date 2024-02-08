@@ -25,6 +25,10 @@ spec:
       description: 'Namespace'
       name: NAMESPACE
       type: string
+  volumes:
+    - name: report-volume
+      persistentVolumeClaim:
+        claimName: ts-report-storage
   steps:
     - name: fetch-repository
       image: alpine/git
@@ -51,3 +55,6 @@ spec:
         echo "---------------------execute the ant script"
         cd /workspace/source/testsuite/WmTestSuiteExecutor/
         /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml
+  volumeMounts:
+    - name: report-volume
+      mountPath: /opt/softwareag/test/reports/
