@@ -34,9 +34,16 @@ spec:
       image: >-
         $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG)
       name: execute-command
+      env:
+        - name: JAVA_HOME
+          value: /opt/softwareag/jvm/jvm
       script: |
         # Your command to execute inside the image
         echo "Hello, OpenShift Pipeline!"
         ls /opt/softwareag/
         ls /workspace/source/sourcecode/msr-packages
         ls /opt/softwareag/common/lib/ant
+        echo "---------------------execute the ant script"
+        cd /workspace/source/testsuite/WmTestSuiteExecutor/
+        ls /workspace/source/testsuite/WmTestSuiteExecutor/
+        /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml
