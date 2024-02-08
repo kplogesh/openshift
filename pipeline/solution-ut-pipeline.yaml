@@ -13,7 +13,7 @@ spec:
       description: Repository URL
       name: REPO_REF
       type: string
-    - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/sag-ut-install-base'
+    - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/sag-install-base'
       description: 'MSR Test'
       name: IMAGE_NAME
       type: string

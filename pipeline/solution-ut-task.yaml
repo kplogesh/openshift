@@ -32,12 +32,24 @@ spec:
   steps:
     - name: fetch-repository
       image: alpine/git
+      env:
+        - name: GIT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: git-creds
+              key: username
+        - name: GIT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: git-creds
+              key: password
       script: |
+        git config --global credential.helper '!f() { echo "username=$GIT_USERNAME"; echo "password=$GIT_PASSWORD"; }; f'
         git clone --recursive $(inputs.params.REPO_URL) /workspace/source
     - computeResources: {}
       image: >-
         $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG)
-      name: execute-command
+      name: execute-testsuite
       env:
         - name: JAVA_HOME
           value: /opt/softwareag/jvm/jvm
@@ -55,6 +67,6 @@ spec:
         echo "---------------------execute the ant script"
         cd /workspace/source/testsuite/WmTestSuiteExecutor/
         /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml
-  volumeMounts:
-    - name: report-volume
-      mountPath: /opt/softwareag/test/reports/
+      volumeMounts:
+        - name: report-volume
+          mountPath: /opt/softwareag/test/reports/
