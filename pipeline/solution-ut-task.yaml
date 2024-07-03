@@ -5,21 +5,37 @@ metadata:
   namespace: kplogesh-dev
 spec:
   params:
-    - default: 'https://github.com/kplogesh/openshift.git'
+    - default: 'https://bitbucket.org/kplogesh/ctr-integration-contract.git'
       description: Repository URL
-      name: REPO_URL
+      name: CTR_REPO_URL
       type: string
-    - default: 'master'
+    - default: 'main'
       description: Repository URL
-      name: REPO_REF
+      name: CTR_REPO_REF
       type: string
-    - default: 'msr-test'
-      description: 'MSR Test'
-      name: IMAGE_NAME
+    - default: 'https://bitbucket.org/kplogesh/wmdevops.git'
+      description: Repository URL
+      name: DEVOPS_REPO_URL
+      type: string
+    - default: 'main'
+      description: Repository URL
+      name: DEVOPS_REPO_REF
+      type: string
+    - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/sag-install-base'
+      description: 'Installer Image used to generate for MSR'
+      name: INSTALLER_IMAGE_NAME
       type: string
     - default: latest
-      description: 'Image Tag'
-      name: IMAGE_TAG
+      description: 'Installer Image Tag'
+      name: INSTALLER_IMAGE_TAG
+      type: string
+    - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/sag-install-base'
+      description: 'WPX Image'
+      name: WPX_IMAGE_NAME
+      type: string
+    - default: latest
+      description: 'WPX Image Tag'
+      name: WPX_IMAGE_TAG
       type: string
     - default: kplogesh-dev
       description: 'Namespace'
@@ -33,40 +49,72 @@ spec:
     - name: fetch-repository
       image: alpine/git
       env:
-        - name: GIT_USERNAME
+        - name: CTR_GIT_AUTH_TOKEN
           valueFrom:
             secretKeyRef:
-              name: git-creds
-              key: username
-        - name: GIT_PASSWORD
+              name: bitbucket
+              key: ctr-integraiton-contract-token
+        - name: DEVOPS_GIT_AUTH_TOKEN
           valueFrom:
             secretKeyRef:
-              name: git-creds
-              key: password
+              name: bitbucket
+              key: wmdevops-token
       script: |
-        git config --global credential.helper '!f() { echo "username=$GIT_USERNAME"; echo "password=$GIT_PASSWORD"; }; f'
-        git clone --recursive $(inputs.params.REPO_URL) /workspace/source
-    - computeResources: {}
-      image: >-
-        $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG)
+        echo "Fetching Container Repository Contents"
+        # If it is a private prepository, pass the required credentials
+        if [ -n "${CTR_GIT_AUTH_TOKEN}" ]; then
+          CTR_REPO_URL=$(echo "$(inputs.params.CTR_REPO_URL)" | sed 's|^https://||')  # Remove 'https://' prefix if present
+          git clone https://x-token-auth:${CTR_GIT_AUTH_TOKEN}@${CTR_REPO_URL} /workspace/source/ctr
+        else # For public repository
+          git clone $(inputs.params.CTR_REPO_URL) /workspace/source/ctr
+        fi
+
+        echo "Fetching DEVOPS Repository Contents"
+        if [ -n "${DEVOPS_GIT_AUTH_TOKEN}" ]; then
+          DEVOPS_REPO_URL=$(echo "$(inputs.params.DEVOPS_REPO_URL)" | sed 's|^https://||')  # Remove 'https://' prefix if present
+          git clone https://x-token-auth:${DEVOPS_GIT_AUTH_TOKEN}@${DEVOPS_REPO_URL} /workspace/source/devops
+        else # For public repository
+          git clone $(inputs.params.DEVOPS_REPO_URL) /workspace/source/devops
+        fi
+    - image: >-
+        $(inputs.params.WPX_IMAGE_NAME):$(inputs.params.WPX_IMAGE_TAG)
+      name: execute-wpx
+      env:
+        - name: _GIT_USER
+          valueFrom:
+            secretKeyRef:
+              name: bitbucket
+              key: username
+        - name: _GIT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bitbucket
+              key: app-password
+      script: |
+        # Your command to execute inside the image
+        echo "Executing WPX Commands"
+        ./wpx -i /workspace/source/ctr/build/packages-test.yaml
+
+        echo "Listing the packages cloned via WPX"
+        ls -l /workspace/source/packages
+    - image: >-
+        $(inputs.params.INSTALLER_IMAGE_NAME):$(inputs.params.INSTALLER_IMAGE_TAG)
       name: execute-testsuite
       env:
         - name: JAVA_HOME
           value: /opt/softwareag/jvm/jvm
       script: |
         # Your command to execute inside the image
-        echo "Hello, OpenShift Pipeline!"
-        echo "---------------------Content in the image"
-        ls /opt/softwareag/
-        ls /opt/softwareag/common/lib/ant
+        cd /workspace/source/devops/utils
+        find . -type f -name "*.sh" -exec chmod +x {} \;
+        ls -l
+        setupLocation=$(./get-packages-names.sh /workspace/source/packages)
+        echo "Output: $setupLocation"
 
-
-        echo "---------------------Content in the workspace"
-        ls /workspace/source/sourcecode/msr-packages
-
-        echo "---------------------execute the ant script"
-        cd /workspace/source/testsuite/WmTestSuiteExecutor/
-        /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml
+        echo "RUN the ANT task to execute the testcases"
+        # Navigate to the WmTestSuiteExecutor directory to locate the ANT tasks
+        cd /workspace/source/devops/WmTestSuiteExecutor/
+        /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml -DwebMethods.test.setup.location=${setupLocation} -DwebMethods.integrationServer.port=5555 -DwebMethods.integrationServer.name=solution-msr.kplogesh-dev.svc.cluster.local
       volumeMounts:
         - name: report-volume
           mountPath: /opt/softwareag/test/reports/

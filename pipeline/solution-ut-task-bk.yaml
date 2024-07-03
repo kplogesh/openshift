@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: solution-build-task
+  name: solution-ut-task
   namespace: kplogesh-dev
 spec:
   params:
@@ -25,6 +25,10 @@ spec:
       description: 'Namespace'
       name: NAMESPACE
       type: string
+  volumes:
+    - name: report-volume
+      persistentVolumeClaim:
+        claimName: ts-report-storage
   steps:
     - name: fetch-repository
       image: alpine/git
@@ -47,17 +51,19 @@ spec:
         else # For public repository
           git clone $(inputs.params.REPO_URL) /workspace/source
         fi
-    - name: apply-solution-buildconfig
-      image: openshift/origin-cli
-      workingDir: /workspace/source
+    - image: >-
+        $(inputs.params.IMAGE_NAME):$(inputs.params.IMAGE_TAG)
+      name: execute-testsuite
+      env:
+        - name: JAVA_HOME
+          value: /opt/softwareag/jvm/jvm
       script: |
-        echo Applying manifests -----
-        # Create the imagestream
-        oc process -f buildconfig/imagestream-template.yaml -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) | oc apply -f -
+        # Your command to execute inside the image
+        echo "RUN the ANT task to execute the testcases"
 
-        # Create the BuildConfig
-        oc process -f buildconfig/buildconfig-template.yaml -p REPO_URL=$(inputs.params.REPO_URL) -p REPO_REF=$(inputs.params.REPO_REF) -p IMAGE_NAME=$(inputs.params.IMAGE_NAME) -p IMAGE_TAG=$(inputs.params.IMAGE_TAG) | oc apply -f -
-    - name: start-solution-build 
-      image: openshift/origin-cli
-      script: |
-        oc start-build solution-buildconfig
+        # Navigate to the WmTestSuiteExecutor directory to locate the ANT taskslka@
+        cd /workspace/source/testsuite/WmTestSuiteExecutor/
+        /opt/softwareag/common/lib/ant/bin/ant -f run-composite-runner.xml
+      volumeMounts:
+        - name: report-volume
+          mountPath: /opt/softwareag/test/reports/

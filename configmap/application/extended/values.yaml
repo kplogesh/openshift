@@ -4,7 +4,7 @@ extraConfigMaps:
     automountDir: /opt/softwareag/IntegrationServer/msr-cfg
     data:
       test.properties: |
-        globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers123544
+        globalvariable.mem123123_customer_url.value=http\://api-gateway\:5555/gateway/customers/1.0/customers1235446
 
 secrets:
   msr-secrets:

@@ -5,21 +5,37 @@ metadata:
   namespace: kplogesh-dev
 spec:
   params:
-    - default: 'https://github.com/kplogesh/openshift.git'
+    - default: 'https://bitbucket.org/kplogesh/ctr-integration-contract.git'
       description: Repository URL
-      name: REPO_URL
+      name: CTR_REPO_URL
       type: string
-    - default: 'master'
+    - default: 'main'
       description: Repository URL
-      name: REPO_REF
+      name: CTR_REPO_REF
+      type: string
+    - default: 'https://bitbucket.org/kplogesh/wmdevops.git'
+      description: Repository URL
+      name: DEVOPS_REPO_URL
+      type: string
+    - default: 'main'
+      description: Repository URL
+      name: DEVOPS_REPO_REF
       type: string
     - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/sag-install-base'
-      description: 'MSR Test'
-      name: IMAGE_NAME
+      description: 'Installer Image used to generate for MSR'
+      name: INSTALLER_IMAGE_NAME
       type: string
     - default: latest
-      description: 'Image Tag'
-      name: IMAGE_TAG
+      description: 'Installer Image Tag'
+      name: INSTALLER_IMAGE_TAG
+      type: string
+    - default: 'image-registry.openshift-image-registry.svc:5000/kplogesh-dev/test-infra-wpx'
+      description: 'WPX Image'
+      name: WPX_IMAGE_NAME
+      type: string
+    - default: latest
+      description: 'WPX Image Tag'
+      name: WPX_IMAGE_TAG
       type: string
     - default: kplogesh-dev
       description: 'Namespace'
@@ -31,11 +47,21 @@ spec:
         kind: Task
         name: solution-ut-task
       params:
-      - name: REPO_URL
-        value: $(params.REPO_URL)
-      - name: IMAGE_NAME
-        value: $(params.IMAGE_NAME)
-      - name: IMAGE_TAG
-        value: $(params.IMAGE_TAG)
+      - name: CTR_REPO_URL
+        value: $(params.CTR_REPO_URL)
+      - name: CTR_REPO_REF
+        value: $(params.CTR_REPO_REF)
+      - name: DEVOPS_REPO_URL
+        value: $(params.DEVOPS_REPO_URL)
+      - name: DEVOPS_REPO_REF
+        value: $(params.DEVOPS_REPO_REF)
+      - name: INSTALLER_IMAGE_NAME
+        value: $(params.INSTALLER_IMAGE_NAME)
+      - name: INSTALLER_IMAGE_TAG
+        value: $(params.INSTALLER_IMAGE_TAG)
+      - name: WPX_IMAGE_NAME
+        value: $(params.WPX_IMAGE_NAME)
+      - name: WPX_IMAGE_TAG
+        value: $(params.WPX_IMAGE_TAG)
       - name: NAMESPACE
         value: $(params.NAMESPACE)
