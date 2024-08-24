@@ -1,0 +1,6 @@
+extraConfigMaps:
+  helloword-key:
+    automount: false
+    data:
+      testdata:
+        helloworld!
